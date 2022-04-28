@@ -1,7 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { trpc } from "../shared/trpc";
 
 const Home: NextPage = () => {
+  const { data, isLoading } = trpc.useQuery(["hello"]);
+
   return (
     <div>
       <Head>
@@ -11,7 +14,9 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1 className="text-3xl font-bold underline">Hello world</h1>
+        <h1 className="text-3xl font-bold underline">
+          {isLoading ? "Loading..." : data?.greeting}
+        </h1>
       </main>
     </div>
   );

@@ -4,6 +4,7 @@
 
 - [x] Install tailwindcss
 - [x] Install tRPC
-- [ ] Add a form to create a url
-- [ ] List all the saved urls on the home page
+- [x] Add a form to create a url
+- [x] List all the saved urls on the home page
+- [ ] Add a button to copy a url
 - [ ] Add the option to delete a url

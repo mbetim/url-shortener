@@ -26,6 +26,12 @@ export const appRouter = trpc
       return { url };
     },
   })
+  .mutation("delete-url-by-slug", {
+    input: z.object({ slug: z.string() }),
+    async resolve({ input }) {
+      return await prisma.url.delete({ where: { slug: input.slug } });
+    },
+  })
   .query("get-all-url", {
     async resolve() {
       return await prisma.url.findMany();

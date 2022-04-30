@@ -2,9 +2,14 @@ import React from "react";
 import { trpc } from "../shared/trpc";
 
 export const ListUrls: React.FC = () => {
-  const { data, isLoading, error } = trpc.useQuery(["get-all-url"]);
+  const { data, isLoading, error, refetch } = trpc.useQuery(["get-all-url"]);
+  const { mutate: deleteUrl, isLoading: isLoadingMutation } = trpc.useMutation(
+    ["delete-url-by-slug"],
+    { onSuccess: () => refetch() }
+  );
 
-  if (isLoading) return <p className="rounded p-3 text-blue-600 bg-blue-200">Loading URLs...</p>;
+  if (isLoading || isLoadingMutation)
+    return <p className="rounded p-3 text-blue-600 bg-blue-200">Loading URLs...</p>;
 
   if (error) return <p className="rounded p-3 text-red-600 bg-red-200">{error.message}</p>;
 
@@ -30,6 +35,13 @@ export const ListUrls: React.FC = () => {
               onClick={() => copyToClipboard(url.slug)}
             >
               Copy
+            </button>
+
+            <button
+              className="flex-1 py-1 rounded bg-red-600 hover:bg-red-700 text-white ease-linear duration-150"
+              onClick={() => deleteUrl({ slug: url.slug })}
+            >
+              Delete
             </button>
           </div>
         </div>
